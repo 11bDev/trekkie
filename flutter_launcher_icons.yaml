@@ -1,0 +1,10 @@
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/images/trekkie_icon.png"
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: "assets/images/trekkie_icon.png"
+  linux:
+    generate: true
+    image_path: "assets/images/trekkie_icon.png"
