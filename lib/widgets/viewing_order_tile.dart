@@ -4,15 +4,22 @@ import '../models/star_trek_models.dart';
 class ViewingOrderTile extends StatelessWidget {
   final ViewingItem item;
   final int index;
+  final VoidCallback? onSeriesTap;
+  final VoidCallback? onMovieTap;
 
   const ViewingOrderTile({
     super.key,
     required this.item,
     required this.index,
+    this.onSeriesTap,
+    this.onMovieTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isSeries = item.type == 'series';
+    final bool isMovie = item.type == 'movie';
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       child: ListTile(
@@ -26,37 +33,44 @@ class ViewingOrderTile extends StatelessWidget {
           ),
         ),
         subtitle: _buildSubtitle(),
-        trailing: item.isOptional 
+        trailing: item.isOptional
             ? Chip(
                 label: const Text('Optional', style: TextStyle(fontSize: 12)),
                 backgroundColor: Colors.orange.shade100,
                 labelStyle: TextStyle(color: Colors.orange.shade800),
               )
+            : (isSeries || isMovie)
+            ? Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey.shade600,
+              )
             : null,
+        onTap: isSeries && onSeriesTap != null
+            ? onSeriesTap
+            : isMovie && onMovieTap != null
+            ? onMovieTap
+            : null,
+        enabled: isSeries || isMovie,
       ),
     );
   }
 
   Widget _buildLeadingIcon() {
     Color backgroundColor;
-    IconData iconData;
-    
+
     switch (item.type) {
       case 'movie':
         backgroundColor = Colors.amber.shade700;
-        iconData = Icons.movie;
         break;
       case 'series':
         backgroundColor = Colors.blue.shade600;
-        iconData = Icons.tv;
         break;
       case 'episode':
         backgroundColor = Colors.green.shade600;
-        iconData = Icons.play_circle_outline;
         break;
       default:
         backgroundColor = Colors.grey.shade600;
-        iconData = Icons.help_outline;
     }
 
     if (item.isOptional) {
@@ -100,11 +114,7 @@ class ViewingOrderTile extends StatelessWidget {
                   color: Colors.white.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
-                  Icons.movie,
-                  color: backgroundColor,
-                  size: 12,
-                ),
+                child: Icon(Icons.movie, color: backgroundColor, size: 12),
               ),
             ),
         ],
@@ -114,28 +124,36 @@ class ViewingOrderTile extends StatelessWidget {
 
   Widget _buildSubtitle() {
     final children = <Widget>[];
-    
+
     if (item.subtitle != null) {
-      children.add(Text(
-        item.subtitle!,
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: item.isOptional ? Colors.grey.shade500 : Colors.blue.shade700,
+      children.add(
+        Text(
+          item.subtitle!,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: item.isOptional
+                ? Colors.grey.shade500
+                : Colors.blue.shade700,
+          ),
         ),
-      ));
+      );
     }
-    
+
     if (item.note != null) {
-      children.add(Text(
-        item.note!,
-        style: TextStyle(
-          fontSize: 13,
-          color: item.isOptional ? Colors.grey.shade500 : Colors.grey.shade600,
+      children.add(
+        Text(
+          item.note!,
+          style: TextStyle(
+            fontSize: 13,
+            color: item.isOptional
+                ? Colors.grey.shade500
+                : Colors.grey.shade600,
+          ),
         ),
-      ));
+      );
     }
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

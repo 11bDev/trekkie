@@ -6,11 +6,13 @@ import 'episode_tile.dart';
 class SeasonExpansionTile extends StatelessWidget {
   final Season season;
   final StarTrekService service;
+  final bool initiallyExpanded;
 
   const SeasonExpansionTile({
     super.key,
     required this.season,
     required this.service,
+    this.initiallyExpanded = false,
   });
 
   @override
@@ -22,12 +24,13 @@ class SeasonExpansionTile extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
       child: ExpansionTile(
+        initiallyExpanded: initiallyExpanded,
         leading: CircleAvatar(
-          backgroundColor: watchedCount == totalCount 
+          backgroundColor: watchedCount == totalCount
               ? Colors.green.shade600
-              : watchedCount > 0 
-                  ? Colors.orange.shade600
-                  : Colors.blue.shade600,
+              : watchedCount > 0
+              ? Colors.orange.shade600
+              : Colors.blue.shade600,
           child: Text(
             'S${season.number}',
             style: const TextStyle(
@@ -50,19 +53,13 @@ class SeasonExpansionTile extends StatelessWidget {
             if (favoriteCount > 0) ...[
               const SizedBox(width: 8),
               Icon(Icons.star, size: 18, color: Colors.amber),
-              Text(
-                ' $favoriteCount',
-                style: const TextStyle(fontSize: 16),
-              ),
+              Text(' $favoriteCount', style: const TextStyle(fontSize: 16)),
             ],
           ],
         ),
-        children: season.episodes.map((episode) => 
-          EpisodeTile(
-            episode: episode,
-            service: service,
-          ),
-        ).toList(),
+        children: season.episodes
+            .map((episode) => EpisodeTile(episode: episode, service: service))
+            .toList(),
       ),
     );
   }

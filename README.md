@@ -13,16 +13,19 @@ Tired of watching Picard as a young man after seeing him as an old Admiral? Our 
 Each series displays the name of its commanding officer because let's face it - half the fun is seeing how much better (or worse) each captain's hair looks compared to Kirk's perfect coif.
 
 ### 📚 **Complete Episode Database**
-All **800+ episodes** from every Star Trek series, complete with:
+All **900+ episodes** from every Star Trek series, complete with:
 - Accurate stardates (when they make sense)
 - Air dates (when humanity still thought Y2K would end civilization)
 - Episode summaries (spoiler-free, unlike your friend who ruins everything)
+- The Animated Series episodes (expanding the original crew's adventures)
+- Lower Decks Season 5 (the final season of everyone's favorite crew)
 
 ### 🎬 **Movies Integration**
-All **13 Star Trek movies** including:
+All **14 Star Trek movies** including:
 - The TOS era films (where Shatner's acting gets progressively more... Shatner)
 - The TNG movies (where Data's emotion chip causes more drama than a Kardashian reality show)
 - The Kelvin timeline reboot trilogy (where everything is shinier and has more lens flares)
+- Section 31 (Michelle Yeoh being badass in the shadows)
 
 ### ✅ **Watch Tracking**
 - Mark episodes and movies as watched with timestamps
@@ -31,6 +34,13 @@ All **13 Star Trek movies** including:
 
 ### ⭐ **Favorites System**
 Star your favorite episodes and movies, though we all know "The Inner Light" and "Wrath of Khan" will top everyone's list anyway.
+
+### 🧭 **Smart Navigation**
+Click any series or movie in the Recommended tab to jump directly to its location:
+- Automatically navigates to the correct tab (By Series or Movies)
+- Expands the show and target season for you
+- Scrolls to the last watched episode or first unwatched episode
+- Persists expansion state so you can pick up where you left off
 
 ### 📈 **Progress Tracking**
 Visual progress indicators show you're slowly becoming the Trekkie you always knew you were, complete with:
@@ -58,6 +68,11 @@ Our viewing guide is organized into six distinct eras, each with its own flavor 
   - Watch humanity's adorable first attempts at not immediately dying in space
   - Features the only captain brave enough to pet alien animals that could literally eat his face
   - Contains 50% more shower scenes than any other Star Trek series (we're looking at you, Season 1)
+
+- **Star Trek: The Animated Series** (Seasons 1–2)
+  - The original crew returns in animated form with unlimited special effects budget
+  - Proves that Star Trek works in any medium when the stories are good
+  - Features aliens too expensive to create in the 1970s
 
 ### 🔬 **2. Pre-Original Series Era (2256-2260)**
 *"The period where everything looks more advanced than TOS despite being set earlier"*
@@ -110,10 +125,11 @@ Our viewing guide is organized into six distinct eras, each with its own flavor 
 ### 🚀 **5. Modern Era (2380-3190)**
 *"Where Star Trek grows up, gets animated, and jumps to the far future"*
 
-- **Star Trek: Lower Decks** (Seasons 1–4)
+- **Star Trek: Lower Decks** (Seasons 1–5)
   - Proves that Star Trek comedy can work if you respect the source material
   - Features the most accurate portrayal of what working in Starfleet would actually be like
   - Mariner has more character development than most live-action protagonists
+  - Season 5 brings the crew's journey to a satisfying conclusion
 
 - **Star Trek: Prodigy** (Seasons 1–2)
   - Kids steal a Starfleet ship and somehow become better officers than most adults
@@ -204,7 +220,7 @@ The app is designed to boldly interface with:
 - You're exploring offline (like Voyager in the Delta Quadrant)
 - The internet has been destroyed by hostile aliens (again)
 
-## 🎬 Complete Movie Collection (All 13 Films, Ranked by Timeline Not Quality)
+## 🎬 Complete Movie Collection (All 14 Films, Ranked by Timeline Not Quality)
 
 ### 🌌 **TOS Era Movies** (The Original Cast Being Awesome)
 1. **The Motion Picture** - Slow but beautiful, like a very expensive screensaver
@@ -220,10 +236,16 @@ The app is designed to boldly interface with:
 9. **Insurrection** - Picard becomes a rebel (again)
 10. **Nemesis** - Evil Picard is just regular Picard having a bad day
 
+### 🎯 **Early 24th Century**
+11. **Section 31** - Michelle Yeoh's Georgiou leads Starfleet's black ops division
+
 ### ✨ **Kelvin Timeline Movies** (Alternate Reality, Maximum Lens Flare)
-11. **Star Trek (2009)** - Young Kirk learns to Kirk properly
-12. **Into Darkness** - Khan returns with better workout routine
-13. **Beyond** - The crew learns friendship beats nihilism every time
+12. **Star Trek (2009)** - Young Kirk learns to Kirk properly
+13. **Into Darkness** - Khan returns with better workout routine
+14. **Beyond** - The crew learns friendship beats nihilism every time
+
+### 🎯 **Early 24th Century**
+14. **Section 31** - Michelle Yeoh's Georgiou leads the Federation's most secretive organization
 
 ## 📱 Screenshots & Features Demo
 

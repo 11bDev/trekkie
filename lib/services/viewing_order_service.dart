@@ -5,18 +5,20 @@ class ViewingOrderService {
     return [
       ViewingEra(
         title: '1. Pre-Federation Era',
-        description: 'The earliest chronological period, showing humanity\'s first steps into space',
+        description:
+            'The earliest chronological period, showing humanity\'s first steps into space',
         items: [
           ViewingItem(
             id: 'ent_all',
             title: 'Star Trek: Enterprise',
             type: 'series',
             subtitle: 'Seasons 1–4',
-            note: 'Shows humanity\'s first warp-capable starship and formation of the Federation',
+            note:
+                'Shows humanity\'s first warp-capable starship and formation of the Federation',
           ),
         ],
       ),
-      
+
       ViewingEra(
         title: '2. Pre-Original Series Era',
         description: 'The period leading up to Kirk\'s five-year mission',
@@ -26,7 +28,8 @@ class ViewingOrderService {
             title: 'Star Trek: Discovery',
             type: 'series',
             subtitle: 'Seasons 1–2',
-            note: 'Set 10 years before TOS, introduces Spock\'s adoptive sister',
+            note:
+                'Set 10 years before TOS, introduces Spock\'s adoptive sister',
           ),
           ViewingItem(
             id: 'snw_all',
@@ -45,7 +48,7 @@ class ViewingOrderService {
           ),
         ],
       ),
-      
+
       ViewingEra(
         title: '3. The Original Series Era',
         description: 'Kirk\'s five-year mission and the early movie era',
@@ -110,12 +113,19 @@ class ViewingOrderService {
             type: 'movie',
             note: 'The original crew\'s final adventure',
           ),
+          ViewingItem(
+            id: 'sec31',
+            title: 'Star Trek: Section 31',
+            type: 'movie',
+            note: 'Emperor Georgiou joins Section 31 in the early 24th century',
+          ),
         ],
       ),
-      
+
       ViewingEra(
         title: '4. The Next Generation Era (24th Century)',
-        description: 'The golden age of Star Trek with multiple overlapping series',
+        description:
+            'The golden age of Star Trek with multiple overlapping series',
         items: [
           ViewingItem(
             id: 'tng_all',
@@ -129,7 +139,8 @@ class ViewingOrderService {
             title: 'Star Trek: Deep Space Nine',
             type: 'series',
             subtitle: 'Seasons 1–7',
-            note: 'Darker, serialized stories on a space station (overlaps with TNG S6-7)',
+            note:
+                'Darker, serialized stories on a space station (overlaps with TNG S6-7)',
           ),
           ViewingItem(
             id: 'gen',
@@ -164,7 +175,7 @@ class ViewingOrderService {
           ),
         ],
       ),
-      
+
       ViewingEra(
         title: '5. 21st–32nd Century (Modern Era)',
         description: 'Sequels, spin-offs, and far future adventures',
@@ -180,7 +191,7 @@ class ViewingOrderService {
             id: 'ld_all',
             title: 'Star Trek: Lower Decks',
             type: 'series',
-            subtitle: 'Seasons 1–4',
+            subtitle: 'Seasons 1–5',
             note: 'Animated comedy about lower-ranking officers',
           ),
           ViewingItem(
@@ -199,7 +210,7 @@ class ViewingOrderService {
           ),
         ],
       ),
-      
+
       ViewingEra(
         title: '6. Alternate Timeline (Kelvin Timeline)',
         description: 'The reboot movie trilogy in an alternate timeline',
