@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
-import 'dart:html' as html;
+import 'package:url_launcher/url_launcher.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -212,9 +212,12 @@ class LandingScreen extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 // Open link in browser
-                                html.window.open('https://11b.dev', '_blank');
+                                final url = Uri.parse('https://11b.dev');
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                                }
                               },
                               child: const Text(
                                 '11bDev',
