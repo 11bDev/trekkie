@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1075781511459",
+    "project_id": "trekkie-app",
+    "storage_bucket": "trekkie-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075781511459:android:7763bf02b15d844f128496",
+        "android_client_info": {
+          "package_name": "com.example.trekkie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075781511459-r9khlr168n95gtf3raug9ca9c30sbhpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADzMMVsqTfqZpgiLC2lYxNputQIUgisEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075781511459-4mrlau7gscjjione0ndnubdbcgkfmtka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

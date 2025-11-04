@@ -2,9 +2,21 @@
 
 > *"Space: the final frontier. These are the voyages... of someone trying to watch 800+ episodes and 13 movies in the right order without losing their mind."*
 
-**Trekkie** is a Flutter app that boldly goes where no Star Trek viewing guide has gone before! Finally, you can experience all of Star Trek in proper **chronological order** based on the in-universe timeline, not when your parents were young and thought special effects meant painted ping-pong balls.
+**Trekkie** is a Flutter app that boldly goes where no Star Trek viewing guide has gone before! Finally, you can experience all of Star Trek in proper **chronological order** based on the in-universe timeline, with **cloud sync** across all your devices.
+
+## 🚀 Platform Support
+
+- ✅ **Android** - Native Android app
+- ✅ **Web** - Progressive Web App (PWA)
+- 🔄 **iOS** - Coming soon
 
 ## 🚀 Features That Would Make Data Jealous
+
+### 🔐 **Multi-Tenant Authentication**
+- **Email/Password Sign-In** - Create your own account
+- **Google Sign-In** - Quick authentication with your Google account
+- **Secure & Private** - Your data is protected by Firebase Authentication
+- **Cloud Sync** - Access your watch history from any device
 
 ### 📊 **Recommended Viewing Order**
 Tired of watching Picard as a young man after seeing him as an old Admiral? Our expert-curated viewing guide organizes everything into six logical eras, so you can experience Star Trek as it was meant to be seen (chronologically speaking, not release-wise, because that would be chaos).
@@ -27,10 +39,12 @@ All **14 Star Trek movies** including:
 - The Kelvin timeline reboot trilogy (where everything is shinier and has more lens flares)
 - Section 31 (Michelle Yeoh being badass in the shadows)
 
-### ✅ **Watch Tracking**
+### ✅ **Watch Tracking with Cloud Sync**
 - Mark episodes and movies as watched with timestamps
+- **Syncs across all your devices** automatically via Firebase
 - Because how else will you prove to your friends that you actually sat through "Spock's Brain"?
 - Automatic date annotation so you can remember exactly when you questioned your life choices
+- Access your watch history from Android, Web, or any future platforms
 
 ### ⭐ **Favorites System**
 Star your favorite episodes and movies, though we all know "The Inner Light" and "Wrath of Khan" will top everyone's list anyway.
@@ -56,6 +70,12 @@ Detailed stats that answer burning questions like:
 
 ### 🔮 **API Integration Ready**
 Built to integrate with Star Trek APIs because even in the 24th century, data synchronization is important.
+
+### ☁️ **Firebase Backend**
+- **Cloud Firestore** for real-time data sync
+- **Firebase Authentication** for secure multi-tenant access
+- **Automatic backup** of your viewing progress
+- **Cross-device synchronization** in real-time
 
 ## 🌌 The Six Eras of Star Trek (Or: How to Watch 800+ Episodes Without Crying)
 
@@ -158,50 +178,72 @@ Our viewing guide is organized into six distinct eras, each with its own flavor 
 ### 🔧 **For Developers** 
 *(Because even starship engineers need to debug their code)*
 
-1. **Install Flutter** (if you haven't already fallen down this rabbit hole)
-2. **Clone this repository** to your local machine (or your starship's computer core)
-3. **Run `flutter pub get`** to download more dependencies than the Enterprise has crew members
-4. **Run `flutter run`** and watch the magic happen faster than warp 9
+#### **Prerequisites**
+- Flutter SDK (3.8.1 or higher)
+- A Firebase project (see setup guide below)
+- Android Studio (for Android development)
+- Chrome or Edge (for web development)
 
+#### **Installation Steps**
+
+1. **Clone this repository**
 ```bash
-git clone https://github.com/yourusername/trekkie.git
+git clone https://github.com/11bDev/trekkie.git
 cd trekkie
+```
+
+2. **Install dependencies**
+```bash
 flutter pub get
-flutter run
 ```
 
-### 🐧 **Linux Installation**
-*(Because penguins can be Trekkies too)*
+3. **Set up Firebase** (Important!)
+   - Follow the detailed guide in [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
+   - Create a Firebase project
+   - Add Android and Web apps
+   - Download configuration files
+   - Update `lib/main.dart` and `web/index.html` with your Firebase config
 
-#### **Local Installation** (Current user only - perfect for your personal viewing addiction)
+4. **Run the app**
+
+For Android:
 ```bash
-chmod +x install_local.sh
-./install_local.sh
+flutter run -d android
 ```
 
-#### **System-wide Installation** (All users - spread the Trek love)
+For Web:
 ```bash
-chmod +x install_linux.sh
-sudo ./install_linux.sh
+flutter run -d chrome
 ```
 
-#### **Uninstallation** (In case you need to go back to a world without proper Star Trek organization)
-```bash
-chmod +x uninstall_linux.sh
-./uninstall_linux.sh
-```
+### 📱 **For End Users**
 
-After installation, the app will appear in your application menu with the iconic Star Trek delta shield. Launch it from your desktop environment or command line and prepare for the journey of a lifetime.
+#### **Android Installation**
+1. Download the APK from the [Releases](https://github.com/11bDev/trekkie/releases) page
+2. Install on your Android device
+3. Create an account or sign in with Google
+4. Start tracking your Star Trek journey!
+
+#### **Web Access**
+1. Visit the web app at: [YOUR_WEB_APP_URL]
+2. Sign in with your account
+3. Use on any device with a modern browser
 
 ## 💾 Data Persistence (Your Watching History Won't Disappear Into a Temporal Anomaly)
 
-The app uses SharedPreferences to securely store:
-- **Watch status** for all episodes and movies (with timestamps more precise than stardate calculations)
-- **Favorite markers** (because everyone needs a list of their top episodes for reference)
-- **Watch dates** (so you can remember when you discovered your new favorite episode)
+The app uses **Firebase Cloud Firestore** to securely store and sync:
+- **Watch status** for all episodes and movies (with server-side timestamps)
+- **Favorite markers** (synced across all your devices)
+- **Watch dates** (precise to the millisecond)
 - **Progress tracking** (your journey to becoming the ultimate Trekkie)
+- **User profile** (display name and authentication details)
 
-Your data persists across app updates, device restarts, and hopefully temporal incursions.
+Your data:
+- ✅ **Syncs in real-time** across all devices
+- ✅ **Persists across app updates** and device changes
+- ✅ **Secure** with Firebase Authentication and Security Rules
+- ✅ **Private** - only you can access your watch history
+- ✅ **Backed up** automatically in the cloud
 
 ## 🌐 API Integration (The Final Frontier of Real-Time Data)
 
@@ -264,23 +306,25 @@ Track your viewing progress and discover just how much of your life you've devot
 ## 🔮 Future Enhancements (The Road to Season 8)
 
 ### 🚀 **Coming Soon**
+- **iOS Support** - Native iOS app
 - **Live API Integration** - Automatic detection of new episodes and movies
 - **Enhanced Episode Descriptions** - More detailed summaries than "Kirk fights aliens"
-- **Export/Import Watch History** - Share your viewing data across devices
+- **Export/Import Watch History** - Backup and restore functionality
 - **Advanced Search** - Find that episode where Data has feelings (again)
 - **Custom Watch Lists** - Create your own viewing schedules
 - **Notification System** - Get alerts for new releases
 - **Social Features** - Compare viewing progress with fellow Trekkies
 - **Viewing Time Calculator** - Find out exactly how much of your life has been Star Trek
 - **Episode Ratings** - Rate episodes from "Spock's Brain" to "The Inner Light"
+- **Offline Mode** - Download data for offline viewing tracking
 
 ### 🎯 **Long-term Goals**
-- **Multi-platform Support** - iOS, Android, Web, and hopefully replicator
-- **Offline Mode** - Full functionality without subspace communication
+- **Multi-language Support** - Klingon included (joking... unless?)
 - **Theme Customization** - LCARS interface mode for authentic experience
 - **Voice Control** - "Computer, show me the next episode"
 - **VR Integration** - Experience Star Trek viewing in holodeck-like environment
-- **Time Travel Detection** - Automatically adjust timeline when temporal anomalies occur
+- **Watch Parties** - Sync viewing with friends across the galaxy
+- **Achievement System** - Earn badges for watching milestones
 
 ## 🤝 Contributing (Join the Crew)
 
@@ -319,7 +363,11 @@ We welcome contributions from Trekkies of all skill levels! Whether you're a:
 ### 🏆 **Built With**
 - **Flutter** - Because native development is for species with more time
 - **Dart** - A language that's actually logical (unlike Vulcan logic)
-- **SharedPreferences** - For data persistence across space and time
+- **Firebase** - For authentication, cloud storage, and real-time sync
+  - **Firebase Auth** - Secure multi-tenant authentication
+  - **Cloud Firestore** - Real-time NoSQL database
+  - **Firebase Hosting** - Fast and secure web hosting
+- **Google Sign-In** - Quick authentication with Google accounts
 - **HTTP** - For API communication at faster-than-light speeds
 - **Love for Star Trek** - The most important dependency of all
 
@@ -345,8 +393,18 @@ Whether you're a longtime Trekkie or someone just beginning their journey throug
 
 Found a bug? Have a feature request? Want to discuss whether Kirk or Picard is the better captain? (It's clearly Pike, but we can discuss it.)
 
-- **Create an Issue**: [GitHub Issues](https://github.com/yourusername/trekkie/issues)
-- **Start a Discussion**: [GitHub Discussions](https://github.com/yourusername/trekkie/discussions)
-- **Email**: boldly.go@wherever.com (replace with actual email)
+- **Create an Issue**: [GitHub Issues](https://github.com/11bDev/trekkie/issues)
+- **Start a Discussion**: [GitHub Discussions](https://github.com/11bDev/trekkie/discussions)
+- **Firebase Setup Help**: See [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
 
 *Remember: In space, no one can hear you debug.*
+
+## 🔐 Security & Privacy
+
+- **Your data is private** - Only you can access your watch history
+- **Secure authentication** - Industry-standard Firebase Auth
+- **Encrypted in transit** - All data encrypted with HTTPS/TLS
+- **No tracking** - We don't collect analytics or sell your data
+- **Open source** - Review the code yourself!
+
+For more details, see our security best practices in [FIREBASE_SETUP.md](FIREBASE_SETUP.md).

@@ -1,16 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'services/star_trek_service.dart';
 import 'services/viewing_order_service.dart';
+import 'services/firestore_service.dart';
 import 'models/star_trek_models.dart';
 import 'widgets/show_expansion_tile.dart';
 import 'widgets/movie_tile.dart';
 import 'widgets/star_trek_icon.dart';
 import 'widgets/viewing_order_tile.dart';
 import 'widgets/captain_avatar.dart';
-import 'widgets/welcome_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/login_screen.dart';
+import 'screens/landing_screen.dart';
+import 'screens/profile_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase
+  // On web, we need to provide options manually
+  // On Android/iOS, it uses the config files (google-services.json / GoogleService-Info.plist)
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyBZaTHoKg7fErvarVH1LT7AJNH87NzIrVY',
+        appId: '1:1075781511459:web:bc5584475cf2eb12128496',
+        messagingSenderId: '1075781511459',
+        projectId: 'trekkie-app',
+        authDomain: 'trekkie-app.firebaseapp.com',
+        storageBucket: 'trekkie-app.firebasestorage.app',
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+  
   runApp(const TrekkieApp());
 }
 
@@ -51,7 +76,38 @@ class TrekkieApp extends StatelessWidget {
           titleSmall: TextStyle(fontSize: 18),
         ),
       ),
-      home: const TrekkieHomePage(),
+      home: const AuthWrapper(),
+    );
+  }
+}
+
+// Auth wrapper to handle login/home navigation
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // Show loading while checking auth state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        // Show landing page (web) or login (mobile) if not authenticated
+        if (!snapshot.hasData || snapshot.data == null) {
+          // On web, show landing page; on mobile, show login directly
+          return kIsWeb ? const LandingScreen() : const LoginScreen();
+        }
+
+        // Show home if authenticated
+        return const TrekkieHomePage();
+      },
     );
   }
 }
@@ -65,6 +121,7 @@ class TrekkieHomePage extends StatefulWidget {
 
 class _TrekkieHomePageState extends State<TrekkieHomePage> {
   final StarTrekService _service = StarTrekService();
+  final FirestoreService _firestoreService = FirestoreService();
   List<StarTrekShow> _shows = [];
   List<Movie> _movies = [];
   Map<String, List<Movie>> _moviesByTimeline = {};
@@ -80,29 +137,13 @@ class _TrekkieHomePageState extends State<TrekkieHomePage> {
   @override
   void initState() {
     super.initState();
+    _initializeUser();
     _loadShows();
-    _checkFirstLaunch();
   }
 
-  Future<void> _checkFirstLaunch() async {
-    final prefs = await SharedPreferences.getInstance();
-    final hasSeenWelcome = prefs.getBool('hasSeenWelcome') ?? false;
-
-    if (!hasSeenWelcome && mounted) {
-      // Wait a bit for the UI to settle
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      if (mounted) {
-        await showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => const WelcomeDialog(),
-        );
-
-        // Mark as seen
-        await prefs.setBool('hasSeenWelcome', true);
-      }
-    }
+  Future<void> _initializeUser() async {
+    // Initialize Firestore user document
+    await _firestoreService.initializeUserDocument();
   }
 
   Future<void> _loadShows() async {
@@ -118,11 +159,11 @@ class _TrekkieHomePageState extends State<TrekkieHomePage> {
       final moviesByTimeline =
           content['moviesByTimeline'] as Map<String, List<Movie>>;
 
-      // Load user preferences
-      final watchedEpisodes = await _service.getWatchedEpisodes();
-      final favoriteEpisodes = await _service.getFavoriteEpisodes();
-      final watchedMovies = await _service.getWatchedMovies();
-      final favoriteMovies = await _service.getFavoriteMovies();
+      // Load user preferences from Firestore
+      final watchedEpisodes = await _firestoreService.getWatchedEpisodes();
+      final favoriteEpisodes = await _firestoreService.getFavoriteEpisodes();
+      final watchedMovies = await _firestoreService.getWatchedMovies();
+      final favoriteMovies = await _firestoreService.getFavoriteMovies();
 
       // Update episode states based on saved preferences
       for (final show in shows) {
@@ -131,8 +172,10 @@ class _TrekkieHomePageState extends State<TrekkieHomePage> {
             episode.isWatched = watchedEpisodes.contains(episode.id);
             episode.isFavorite = favoriteEpisodes.contains(episode.id);
             if (episode.isWatched && episode.watchedDate == null) {
+              // Get the actual watch date from Firestore
               episode.watchedDate =
-                  DateTime.now(); // Default date for existing watched episodes
+                  await _firestoreService.getEpisodeWatchDate(episode.id) ??
+                      DateTime.now();
             }
           }
         }
@@ -143,8 +186,10 @@ class _TrekkieHomePageState extends State<TrekkieHomePage> {
         movie.isWatched = watchedMovies.contains(movie.id);
         movie.isFavorite = favoriteMovies.contains(movie.id);
         if (movie.isWatched && movie.watchedDate == null) {
+          // Get the actual watch date from Firestore
           movie.watchedDate =
-              DateTime.now(); // Default date for existing watched movies
+              await _firestoreService.getMovieWatchDate(movie.id) ??
+                  DateTime.now();
         }
       }
 
@@ -186,6 +231,18 @@ class _TrekkieHomePageState extends State<TrekkieHomePage> {
             icon: const Icon(Icons.refresh),
             onPressed: _loadShows,
             tooltip: 'Refresh',
+          ),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfileScreen(),
+                ),
+              );
+            },
+            tooltip: 'Profile',
           ),
         ],
       ),

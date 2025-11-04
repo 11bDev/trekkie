@@ -1,16 +1,12 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/star_trek_models.dart';
 import 'star_trek_api_service.dart';
 import 'movie_service.dart';
+import 'firestore_service.dart';
 
 class StarTrekService {
-  static const String _watchedKey = 'watched_episodes';
-  static const String _favoritesKey = 'favorite_episodes';
-  static const String _watchedMoviesKey = 'watched_movies';
-  static const String _favoriteMoviesKey = 'favorite_movies';
-
   final StarTrekApiService _apiService = StarTrekApiService();
+  final FirestoreService _firestoreService = FirestoreService();
 
   // Get comprehensive Star Trek content including shows and movies
   Future<Map<String, dynamic>> getStarTrekContent() async {
@@ -220,75 +216,35 @@ class StarTrekService {
   }
 
   Future<void> markEpisodeWatched(String episodeId, bool watched) async {
-    final prefs = await SharedPreferences.getInstance();
-    final watchedEpisodes = prefs.getStringList(_watchedKey) ?? [];
-
-    if (watched && !watchedEpisodes.contains(episodeId)) {
-      watchedEpisodes.add(episodeId);
-    } else if (!watched) {
-      watchedEpisodes.remove(episodeId);
-    }
-
-    await prefs.setStringList(_watchedKey, watchedEpisodes);
+    await _firestoreService.markEpisodeWatched(episodeId, watched);
   }
 
   Future<void> markEpisodeFavorite(String episodeId, bool favorite) async {
-    final prefs = await SharedPreferences.getInstance();
-    final favoriteEpisodes = prefs.getStringList(_favoritesKey) ?? [];
-
-    if (favorite && !favoriteEpisodes.contains(episodeId)) {
-      favoriteEpisodes.add(episodeId);
-    } else if (!favorite) {
-      favoriteEpisodes.remove(episodeId);
-    }
-
-    await prefs.setStringList(_favoritesKey, favoriteEpisodes);
+    await _firestoreService.markEpisodeFavorite(episodeId, favorite);
   }
 
   Future<List<String>> getWatchedEpisodes() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_watchedKey) ?? [];
+    return await _firestoreService.getWatchedEpisodes();
   }
 
   Future<List<String>> getFavoriteEpisodes() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_favoritesKey) ?? [];
+    return await _firestoreService.getFavoriteEpisodes();
   }
 
   Future<void> markMovieWatched(String movieId, bool watched) async {
-    final prefs = await SharedPreferences.getInstance();
-    final watchedMovies = prefs.getStringList(_watchedMoviesKey) ?? [];
-
-    if (watched && !watchedMovies.contains(movieId)) {
-      watchedMovies.add(movieId);
-    } else if (!watched) {
-      watchedMovies.remove(movieId);
-    }
-
-    await prefs.setStringList(_watchedMoviesKey, watchedMovies);
+    await _firestoreService.markMovieWatched(movieId, watched);
   }
 
   Future<void> markMovieFavorite(String movieId, bool favorite) async {
-    final prefs = await SharedPreferences.getInstance();
-    final favoriteMovies = prefs.getStringList(_favoriteMoviesKey) ?? [];
-
-    if (favorite && !favoriteMovies.contains(movieId)) {
-      favoriteMovies.add(movieId);
-    } else if (!favorite) {
-      favoriteMovies.remove(movieId);
-    }
-
-    await prefs.setStringList(_favoriteMoviesKey, favoriteMovies);
+    await _firestoreService.markMovieFavorite(movieId, favorite);
   }
 
   Future<List<String>> getWatchedMovies() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_watchedMoviesKey) ?? [];
+    return await _firestoreService.getWatchedMovies();
   }
 
   Future<List<String>> getFavoriteMovies() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_favoriteMoviesKey) ?? [];
+    return await _firestoreService.getFavoriteMovies();
   }
 
   // Sample episode generators (abbreviated for brevity)
