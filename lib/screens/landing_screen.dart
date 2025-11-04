@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import 'signup_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -146,10 +147,9 @@ class LandingScreen extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
+                          showDialog(
+                            context: context,
+                            builder: (context) => const SignupScreen(),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -174,10 +174,9 @@ class LandingScreen extends StatelessWidget {
                     // Secondary button - Already have account
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
+                        showDialog(
+                          context: context,
+                          builder: (context) => const LoginScreen(),
                         );
                       },
                       child: const Text(

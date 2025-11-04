@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../widgets/star_trek_icon.dart';
+import '../main.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -35,12 +36,20 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await _authService.signUpWithEmailPassword(
+      final result = await _authService.signUpWithEmailPassword(
         _emailController.text.trim(),
         _passwordController.text,
         _nameController.text.trim(),
       );
-      // Navigation handled by auth state listener in main.dart
+      
+      if (result != null && mounted) {
+        // Close the dialog first
+        Navigator.of(context).pop();
+        // Navigate to home after successful signup
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const TrekkieHomePage()),
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -59,8 +68,16 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await _authService.signInWithGoogle();
-      // Navigation handled by auth state listener in main.dart
+      final result = await _authService.signInWithGoogle();
+      
+      if (result != null && mounted) {
+        // Close the dialog first
+        Navigator.of(context).pop();
+        // Navigate to home after successful signup
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const TrekkieHomePage()),
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -77,40 +94,42 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Account'),
-      ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Logo
-                  StarTrekIcon(
-                    size: 64,
-                    color: Theme.of(context).primaryColor,
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500, maxHeight: 750),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Close button
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                    tooltip: 'Close',
                   ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Join the Crew',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Start tracking your Star Trek journey',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 32),
+                ),
+                
+                // Logo
+                StarTrekIcon(
+                  size: 60,
+                  color: Theme.of(context).primaryColor,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Join the Crew',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
 
                   // Name field
                   TextFormField(
@@ -287,7 +306,6 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

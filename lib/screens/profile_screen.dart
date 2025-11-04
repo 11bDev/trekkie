@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../services/auth_service.dart';
 import '../services/firestore_service.dart';
 
@@ -102,7 +101,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (confirmed == true) {
       await _authService.signOut();
-      // Navigation handled by auth state listener
+      if (mounted) {
+        // Navigate back to root (which will be LandingScreen via AuthWrapper)
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../widgets/star_trek_icon.dart';
 import 'signup_screen.dart';
+import '../main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,11 +32,19 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await _authService.signInWithEmailPassword(
+      final result = await _authService.signInWithEmailPassword(
         _emailController.text.trim(),
         _passwordController.text,
       );
-      // Navigation handled by auth state listener in main.dart
+      
+      if (result != null && mounted) {
+        // Close the dialog first
+        Navigator.of(context).pop();
+        // Navigate to home after successful login
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const TrekkieHomePage()),
+        );
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -54,8 +63,16 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await _authService.signInWithGoogle();
-      // Navigation handled by auth state listener in main.dart
+      final result = await _authService.signInWithGoogle();
+      
+      if (result != null && mounted) {
+        // Close the dialog first
+        Navigator.of(context).pop();
+        // Navigate to home after successful login
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const TrekkieHomePage()),
+        );
+      }
     } catch (e, stackTrace) {
       print('Login Screen Error: $e');
       print('Stack trace: $stackTrace');
@@ -123,38 +140,43 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Logo and Title
-                  StarTrekIcon(
-                    size: 80,
-                    color: Theme.of(context).primaryColor,
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 500, maxHeight: 700),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Close button
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                    tooltip: 'Close',
                   ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Trekkie',
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Your Star Trek Timeline Tracker',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 48),
+                ),
+                
+                // Logo and Title
+                StarTrekIcon(
+                  size: 60,
+                  color: Theme.of(context).primaryColor,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Sign In',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
 
                   // Email field
                   TextFormField(
@@ -273,11 +295,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text("Don't have an account? "),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignupScreen(),
-                            ),
+                          Navigator.pop(context); // Close login dialog
+                          showDialog(
+                            context: context,
+                            builder: (context) => const SignupScreen(),
                           );
                         },
                         child: const Text('Sign Up'),
@@ -289,7 +310,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
