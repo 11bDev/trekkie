@@ -21,6 +21,8 @@ class AuthService {
         email: email,
         password: password,
       );
+      // Force reload to ensure auth state is updated
+      await userCredential.user?.reload();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
@@ -71,7 +73,10 @@ class AuthService {
       );
 
       // Sign in to Firebase with the Google credential
-      return await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential);
+      // Force reload to ensure auth state is updated
+      await userCredential.user?.reload();
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       // Log detailed error for debugging
       print('FirebaseAuthException: ${e.code} - ${e.message}');
